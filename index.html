@@ -15,44 +15,87 @@
       height: 100vh;
       margin: 0;
       text-align: center;
+      overflow: hidden;
     }
+
+    .click-message {
+      font-size: 1.2em;
+      color: #0ff;
+      text-shadow: 0 0 5px #0ff;
+      margin-bottom: 20px;
+      animation: pulse 1s infinite;
+      cursor: pointer;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .insult-container {
+      opacity: 0;
+      transition: opacity 1s ease;
+    }
+
+    .visible {
+      opacity: 1;
+    }
+
     h1 {
       font-size: 3em;
+      margin-bottom: 10px;
     }
+
     p {
       font-size: 1.5em;
-      margin-top: 20px;
+      margin-top: 15px;
     }
+
     .highlight {
       color: #ff0;
       text-shadow: 0 0 10px #ff0;
     }
+
+    @keyframes pulse {
+      0% { opacity: 1; }
+      50% { opacity: 0.6; }
+      100% { opacity: 1; }
+    }
   </style>
 </head>
 <body>
-  <h1>⚠️ TU HAI <span class="highlight">VO MC</span> BSDK ⚠️</h1>
-  <p>bhosdiwala mere ko mc bolta hai gaand jake mara le 🤣</p>
-  <p>Bsdk ye bapchodi tere liye banaya tha ab jake jee le 😂</p>
+  <div id="clickMessage" class="click-message">👆 Click anywhere on the screen for surprise 👆</div>
 
-  <audio id="audio" autoplay loop muted playsinline hidden>
+  <div id="insultContainer" class="insult-container">
+    <h1>⚠️ TU HAI <span class="highlight">VO MC</span> BSDK ⚠️</h1>
+    <p>bhosdiwala mere ko mc bolta hai gaand jake mara le 🤣</p>
+    <p>Bsdk ye bapchodi tere liye banaya tha ab jake jee le 😂</p>
+  </div>
+
+  <audio id="audio" loop hidden>
     <source src="teri.mp3" type="audio/mpeg">
   </audio>
 
   <script>
+    const clickMessage = document.getElementById('clickMessage');
+    const insultContainer = document.getElementById('insultContainer');
     const audio = document.getElementById('audio');
-    window.addEventListener('load', () => {
-      audio.muted = false;
-      const playPromise = audio.play();
 
-      if (playPromise !== undefined) {
-        playPromise.catch(() => {
-          // If autoplay fails, wait for first user interaction
-          document.body.addEventListener('click', () => {
-            audio.play();
-          }, { once: true });
-        });
-      }
-    });
+    const startSurprise = () => {
+      clickMessage.classList.add('hidden');
+      insultContainer.classList.add('visible');
+
+      audio.muted = false;
+      audio.play().catch(() => {
+        console.log("User interaction required to play audio.");
+      });
+
+      // Remove the click listener after one use
+      document.body.removeEventListener('click', startSurprise);
+    };
+
+    // Wait for user click to trigger surprise
+    document.body.addEventListener('click', startSurprise);
   </script>
 </body>
 </html>
+
