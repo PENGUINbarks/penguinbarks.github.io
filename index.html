@@ -4,43 +4,28 @@
   <meta charset="UTF-8">
   <title>tuhi vo.mc hai 😭</title>
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
     body {
-      background-color: #000;
+      background: #000;
       color: #0f0;
-      font-family: 'Courier New', monospace;
-      height: 100vh;
+      font-family: monospace;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
+      height: 100vh;
+      margin: 0;
       text-align: center;
-      overflow: hidden;
     }
     h1 {
       font-size: 3em;
-      margin-bottom: 20px;
-      animation: glow 1s ease-in-out infinite alternate;
     }
     p {
       font-size: 1.5em;
-      margin: 10px 20px;
+      margin-top: 20px;
     }
     .highlight {
       color: #ff0;
-      text-shadow: 0 0 10px #ff0, 0 0 20px #f00;
-    }
-    @keyframes glow {
-      from {
-        text-shadow: 0 0 10px #0f0;
-      }
-      to {
-        text-shadow: 0 0 20px #0f0, 0 0 30px #0f0;
-      }
+      text-shadow: 0 0 10px #ff0;
     }
   </style>
 </head>
@@ -49,23 +34,15 @@
   <p>bhosdiwala mere ko mc bolta hai gaand jake mara le 🤣</p>
   <p>Bsdk ye bapchodi tere liye banaya tha ab jake jee le 😂</p>
 
-  <!-- Autoplay Audio -->
-  <audio id="audio" autoplay loop playsinline hidden>
+  <audio id="myAudio" autoplay loop muted>
     <source src="teri.mp3" type="audio/mpeg">
   </audio>
 
   <script>
-    // Unmute and force play after load
+    const audio = document.getElementById('myAudio');
     window.addEventListener('load', () => {
-      const audio = document.getElementById('audio');
       audio.muted = false;
-      const playAudio = () => {
-        audio.play().catch(() => {});
-        document.removeEventListener('click', playAudio);
-      };
-      // Ensure some browsers play after interaction
-      document.addEventListener('click', playAudio);
-      playAudio();
+      audio.play();
     });
   </script>
 </body>
