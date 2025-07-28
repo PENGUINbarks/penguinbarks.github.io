@@ -34,16 +34,28 @@
   <p>bhosdiwala mere ko mc bolta hai gaand jake mara le 🤣</p>
   <p>Bsdk ye bapchodi tere liye banaya tha ab jake jee le 😂</p>
 
-  <audio id="myAudio" autoplay loop muted>
+  <audio id="myAudio" autoplay loop>
     <source src="teri.mp3" type="audio/mpeg">
+    Your browser does not support the audio element.
   </audio>
 
   <script>
-    const audio = document.getElementById('myAudio');
-    window.addEventListener('load', () => {
-      audio.muted = false;
-      audio.play();
-    });
+    const audio = document.getElementById("myAudio");
+
+    // Try to force play with delay if needed
+    function tryPlay() {
+      const promise = audio.play();
+      if (promise !== undefined) {
+        promise.catch(() => {
+          // fallback retry after interaction
+          document.body.addEventListener('click', () => {
+            audio.play();
+          }, { once: true });
+        });
+      }
+    }
+
+    window.addEventListener("load", tryPlay);
   </script>
 </body>
 </html>
